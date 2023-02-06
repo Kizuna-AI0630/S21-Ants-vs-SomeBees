@@ -188,7 +188,7 @@ class ThrowerAnt(Ant):
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
     food_cost = 3
     min_range = 0
-    max_range = 98
+    max_range = 100
     # Why? B/C gamestate.places["tunnel_0_99"].add_insect(bee); max_range >= 99 will be fine.
 
     def nearest_bee(self, beehive):
@@ -201,7 +201,7 @@ class ThrowerAnt(Ant):
           place = self.place
           distance = 0
           
-          while place != Hive and place:
+          while place != beehive and place:
             if not place.bees == [] and distance <= self.max_range and distance >= self.min_range:
               return place.bees[random.randint(0, len(place.bees) - 1)]
             place = place.entrance
@@ -289,7 +289,15 @@ class FireAnt(Ant):
 
 # BEGIN Problem 6
 # The WallAnt class
-#class WallAnt(Ant):
+class WallAnt(Ant):
+  name = 'Wall'
+  implement = True
+  food_cost = 4
+
+  def __init__(self, health = 4):
+    super().__init__(health)
+
+  
   
 # END Problem 6
 
