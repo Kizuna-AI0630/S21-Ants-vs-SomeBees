@@ -187,6 +187,9 @@ class ThrowerAnt(Ant):
     damage = 1
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
     food_cost = 3
+    min_range = 0
+    max_range = 98
+    # Why? B/C gamestate.places["tunnel_0_99"].add_insect(bee); max_range >= 99 will be fine.
 
     def nearest_bee(self, beehive):
           """Return the nearest Bee in a Place that is not the HIVE (beehive), connected to
@@ -197,13 +200,14 @@ class ThrowerAnt(Ant):
            # BEGIN Problem 3 and 4
           place = self.place
           distance = 0
+          
           while place != Hive and place:
-            if not place.bees == [] and distance >= self.min_range and distance <= self.max_range:
-              return place.bees[random.randint(0, len(place.bees) -1)]
+            if not place.bees == [] and distance <= self.max_range and distance >= self.min_range:
+              return place.bees[random.randint(0, len(place.bees) - 1)]
             place = place.entrance
             distance += 1
               
-          #return bee_selector(self.place.bees)  # REPLACE THIS LINE
+        
         # END Problem 3 and 4
 
     def throw_at(self, target):
@@ -234,7 +238,9 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    min_range = 0
+
+    min_range = ThrowerAnt.min_range
+    # min_range = 0
     max_range = 3
     implemented = True   # Change to True to view in the GUI
     # END Problem 4
@@ -247,8 +253,10 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    min_range = 4
-    max_range = 8
+  
+    min_range = 5
+    # max_range = 10
+    max_range = ThrowerAnt.max_range
     implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
@@ -261,7 +269,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -281,13 +289,13 @@ class FireAnt(Ant):
 
 # BEGIN Problem 6
 # The WallAnt class
-class WallAnt(Ant):
+#class WallAnt(Ant):
   
 # END Problem 6
 
 # BEGIN Problem 7
 # The HungryAnt Class
-class HungryAnt(Ant):
+#class HungryAnt(Ant):
   
 # END Problem 7
 
