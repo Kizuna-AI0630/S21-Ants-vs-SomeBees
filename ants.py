@@ -56,6 +56,7 @@ class Place:
     return self.name
 
 
+
 class Insect:
   """An Insect, the base class of Ant and Bee, has health and a Place."""
 
@@ -63,6 +64,8 @@ class Insect:
 
   # ADD CLASS ATTRIBUTES HERE
 
+  is_watersafe = False
+  
   def __init__(self, health, place=None):
     """Create an Insect with a health amount and a starting PLACE."""
     self.health = health
@@ -355,6 +358,7 @@ class ContainerAnt(Ant):
   def can_contain(self, other):
     # BEGIN Problem 8
     "*** YOUR CODE HERE ***"
+    
     # END Problem 8
 
   def contain_ant(self, ant):
@@ -396,8 +400,21 @@ class BodyguardAnt(ContainerAnt):
 
 # BEGIN Problem 9
 # The TankAnt class
-# END Problem 9
+class TankAnt(Ant):
+  name = 'Tank'
+  implemented = True
+  food_cost = 6
+  damage = 1
 
+  def __init__(self, health=2):
+    super().__init__(health)
+
+  def action(self, gamestate):
+    for b in list(self.place.bees):
+      b.reduce_health(self.damage)
+      
+# END Problem 9
+# python3 ok -q 09 --local
 
 class Water(Place):
   """Water is a place that can only hold watersafe insects."""
@@ -407,11 +424,22 @@ class Water(Place):
         its health to 0."""
     # BEGIN Problem 10
     "*** YOUR CODE HERE ***"
+    super().add_insect(insect)
+    if not insect.is_watersafe:
+      insect.reduce_health(insect.health)
     # END Problem 10
 
 
 # BEGIN Problem 11
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+  name = "Scuba"
+  food_cost = 6
+  implemented = True
+  is_watersafe = True
+
+  def __init__(self, health = 1):
+    super().__init__(health)
 # END Problem 11
 
 # BEGIN Problem EC
@@ -471,6 +499,8 @@ class Bee(Insect):
 
   # OVERRIDE CLASS ATTRIBUTES HERE
 
+  is_watersafe = True
+  
   def sting(self, ant):
     """Attack an ANT, reducing its health by 1."""
     ant.reduce_health(self.damage)
